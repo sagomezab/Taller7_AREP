@@ -28,7 +28,7 @@ public class HelloWorld {
                 return "Inicio de sesion exitoso para el usuario";
             } else {
                 System.out.println("No entro");
-                return "Credenciales inválidas";
+                return "Credenciales invalidas";
             }
         });
     }
