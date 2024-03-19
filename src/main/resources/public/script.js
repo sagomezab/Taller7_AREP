@@ -9,7 +9,10 @@ function enviarSin() {
             console.log(resultado);
             document.getElementById("envio").innerText = resultado;
             if (resultado.includes("Inicio de sesion exitoso para el usuario")) {
-                window.location.href = "operaciones.html";
+                setTimeout(function() {
+                    window.location.href = "operaciones.html";;
+                }, 10000);
+                
             }
         }
     };
