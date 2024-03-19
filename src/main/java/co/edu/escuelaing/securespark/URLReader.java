@@ -24,10 +24,10 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
 public class URLReader {
-    public static void main(String[] args) {
+    public static String read(String url, String certificados) {
         try {
 
-            File trustStoreFile = new File("certificados/myTrustStore.p12");
+            File trustStoreFile = new File("certificados/" + certificados);
             char[] trustStorePassword = "123456".toCharArray();
 
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -44,12 +44,10 @@ public class URLReader {
             
             SSLContext sslContext = SSLContext.getInstance("TLS");
             sslContext.init(null, tmf.getTrustManagers(), null);
-            SSLContext.setDefault(sslContext);
+            SSLContext.setDefault(sslContext);       
+            
+            return readURL(url);
 
-            readURL("https://localhost:5000/hello");
-
-            readURL("https://www.google.com");         
-        
         } catch (KeyStoreException ex) {
             Logger.getLogger(URLReader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
@@ -63,10 +61,11 @@ public class URLReader {
         } catch (KeyManagementException ex) {
             Logger.getLogger(URLReader.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
 
     }
 
-    public static void readURL(String sitetoread) {
+    public static String readURL(String sitetoread) {
         try {
             URL siteURL = new URL(sitetoread);
             URLConnection urlConnection = siteURL.openConnection();
@@ -88,11 +87,17 @@ public class URLReader {
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
             String inputLine = null;
+            String outputLine = "";
             while ((inputLine = reader.readLine()) != null) {
+                outputLine = outputLine + inputLine;
                 System.out.println(inputLine);
             }
+
+            return outputLine;
+
         } catch (IOException x) {
             System.err.println(x);
         }
+        return null;
     }
 }
